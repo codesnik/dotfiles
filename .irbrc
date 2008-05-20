@@ -50,7 +50,7 @@ if script_console_running
 end
 
 # Just for Rails...
-if rails_running
+if rails_running || script_console_running
 
   rails_root = File.basename(Dir.pwd)
   if rails_root == 'trunk'
