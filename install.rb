@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-puts $0
+files = ARGV.empty? ? Dir['*'] : ARGV
 for file in Dir['*']
    next if File.expand_path(file) == File.expand_path($0)
    dotted = "~/.#{file}"
