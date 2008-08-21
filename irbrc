@@ -38,7 +38,7 @@ require 'yaml'
 IRB.conf[:SAVE_HISTORY] = 100
 IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-save-history" 
 IRB.conf[:PROMPT_MODE]  = :SIMPLE
-IRB.conf[:AUTO_INDENT_MODE] = true
+IRB.conf[:AUTO_INDENT] = true
 
 script_console_running = ENV.include?('RAILS_ENV') && IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers')
 rails_running = ENV.include?('RAILS_ENV') && !(IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers'))
@@ -75,6 +75,26 @@ if rails_running || script_console_running
     # nice shortcut: Class[:first] eq Class.find(:first)
     ActiveRecord::Base.instance_eval { alias :[] :find }
   end
+
+  # helper.url_for.. got from: http://errtheblog.com/posts/41-real-console-helpers
+  def Object.method_added(method)
+    return super(method) unless method == :helper
+    (class<<self;self;end).send(:remove_method, :method_added)
+
+    def helper(*helper_names)
+      returning $helper_proxy ||= Object.new do |helper|
+        helper_names.each { |h| helper.extend "#{h}_helper".classify.constantize }
+      end
+    end
+
+    helper.instance_variable_set("@controller", ActionController::Integration::Session.new)
+
+    def helper.method_missing(method, *args, &block)
+      @controller.send(method, *args, &block) if @controller && method.to_s =~ /_path$|_url$/
+    end
+
+    helper :application rescue nil
+  end 
 
 end
 
