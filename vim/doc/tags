@@ -133,6 +133,8 @@ VCSCommandDisableExtensionMappings	vcscommand.txt	/*VCSCommandDisableExtensionMa
 VCSCommandDisableMappings	vcscommand.txt	/*VCSCommandDisableMappings*
 VCSCommandEdit	vcscommand.txt	/*VCSCommandEdit*
 VCSCommandEnableBufferSetup	vcscommand.txt	/*VCSCommandEnableBufferSetup*
+VCSCommandMapPrefix	vcscommand.txt	/*VCSCommandMapPrefix*
+VCSCommandMappings	vcscommand.txt	/*VCSCommandMappings*
 VCSCommandResultBufferNameExtension	vcscommand.txt	/*VCSCommandResultBufferNameExtension*
 VCSCommandResultBufferNameFunction	vcscommand.txt	/*VCSCommandResultBufferNameFunction*
 VCSCommandSVKExec	vcscommand.txt	/*VCSCommandSVKExec*

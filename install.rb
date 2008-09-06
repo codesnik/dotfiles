@@ -6,6 +6,10 @@ for file in Dir['*']
    if File.exists? File.expand_path( dotted)
     puts "#{dotted} already exists, won't install"
    else
-    system('ln', '-s', File.expand_path(file), File.expand_path(dotted))
+    if system('ln', '-s', File.expand_path(file), File.expand_path(dotted))
+      puts "successfully installed #{dotted}"
+    else
+      puts "something wrong while installing #{dotted}"
+    end
   end
 end

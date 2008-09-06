@@ -1,0 +1,9 @@
+# конфиг для ack, замены для rgrep 
+# Use "less -r" as my pager
+--pager=less -r
+# skip rails doc folder
+--ignore-dir=doc
+--ignore-dir=log
+
+--type-set=ruby=.rb,.rhtml,.rjs,.rxml,.erb,.rake,Rakefile
+--type-set=erb=.rhtml,.rxml,.erb
