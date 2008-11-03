@@ -165,4 +165,6 @@ let g:proj_run8="!rm -i %f"
 " writing swap file when one second idle, also used by plugins autofollow
 set updatetime=1000
 
+set grepprg=git\ grep\ -n
+
 autocmd BufNewFile,BufRead COMMIT_EDITMSG set filetype=gitcommit

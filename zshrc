@@ -36,7 +36,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 
 
-setopt auto_cd auto_pushd pushd_ignore_dups correct extended_glob numeric_glob_sort rc_quotes listpacked histignoredups noflowcontrol
+setopt auto_cd auto_pushd pushd_ignore_dups correct extended_glob numeric_glob_sort rc_quotes listpacked histignoredups noflowcontrol incappendhistory
 
 # colors hash
 autoload colors
@@ -128,8 +128,10 @@ zstyle ':completion:*:processes' command 'ps -au$USER -o pid,stat,tty,cmd'
 # clever colors for it
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) #[^ ]# #[^ ]#(*)=2=32=0'
 
+# treat . and : in completed words just as like / in dirs - expand them
 # fix for rake tasks with : in names
-zstyle ':completion:*' matcher-list 'r:|[:]=*'
+# also allows for c/e.<tab> expanded to config/environment.rb
+zstyle ':completion:*' matcher-list 'r:|[.:]=*'
 
 
 
