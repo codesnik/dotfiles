@@ -103,6 +103,7 @@ endfunction
 
 " Function: s:gitFunctions.Annotate(argList) {{{2
 function! s:gitFunctions.Annotate(argList)
+        let ln=line('.')
 	if len(a:argList) == 0
 		if &filetype == 'gitAnnotate'
 			" Perform annotation of the version indicated by the current line.
@@ -118,7 +119,7 @@ function! s:gitFunctions.Annotate(argList)
 
 	let resultBuffer = s:DoCommand('blame ' . options . ' -- ', 'annotate', options, {})
 	if resultBuffer > 0
-		normal 1G
+		exe "normal"+ln
 		set filetype=gitAnnotate
 	endif
 	return resultBuffer
