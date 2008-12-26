@@ -129,6 +129,7 @@ VCSCommandCVSExec	vcscommand.txt	/*VCSCommandCVSExec*
 VCSCommandCommitOnWrite	vcscommand.txt	/*VCSCommandCommitOnWrite*
 VCSCommandDeleteOnHide	vcscommand.txt	/*VCSCommandDeleteOnHide*
 VCSCommandDiffSplit	vcscommand.txt	/*VCSCommandDiffSplit*
+VCSCommandDisableAll	vcscommand.txt	/*VCSCommandDisableAll*
 VCSCommandDisableExtensionMappings	vcscommand.txt	/*VCSCommandDisableExtensionMappings*
 VCSCommandDisableMappings	vcscommand.txt	/*VCSCommandDisableMappings*
 VCSCommandEdit	vcscommand.txt	/*VCSCommandEdit*

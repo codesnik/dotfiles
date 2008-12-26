@@ -131,7 +131,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) #[^ ]# #[
 # treat . and : in completed words just as like / in dirs - expand them
 # fix for rake tasks with : in names
 # also allows for c/e.<tab> expanded to config/environment.rb
-zstyle ':completion:*' matcher-list 'r:|[.:]=*'
+zstyle ':completion:*' matcher-list 'r:|[.:-]=*'
 
 
 
@@ -139,6 +139,7 @@ zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _complete _expand 
 zstyle ':completion:*' format "$fg_bold[black]%d:$fg[white]"
 zstyle ':completion:*' glob yes
+# show all completion group names when completing
 zstyle ':completion:*' group-name ''
 #zstyle ':completion:*' insert-unambiguous yes
 #zstyle ':completion:*' substitute yes # default
@@ -151,8 +152,30 @@ compinit
 #
 #
 
-export GEMDIR=`gem env gemdir`
+# NEW
+dirname-previous-word () {
+    autoload -U modify-current-argument
+    modify-current-argument '${ARG:h}/'
+}
+
+zle -N dirname-previous-word
+bindkey '^[q' dirname-previous-word
+
+# one more:
+
+# show mode
+#function zle-line-init zle-keymap-select {
+#    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
+#    RPS2=$RPS1
+#    zle reset-prompt
+#}
+#zle -N zle-line-init
+#zle -N zle-keymap-select
+
+# END OF NEW
+
 
 gemdoc() {
+  export GEMDIR=`gem env gemdir`
   firefox  $GEMDIR/doc/`ls $GEMDIR/doc | grep $1 | sort | tail -1`/rdoc/index.html
 }
