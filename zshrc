@@ -128,10 +128,10 @@ zstyle ':completion:*:processes' command 'ps -au$USER -o pid,stat,tty,cmd'
 # clever colors for it
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) #[^ ]# #[^ ]#(*)=2=32=0'
 
-# treat . and : in completed words just as like / in dirs - expand them
+# treat ., :, - and _ in completed words just as like / in dirs - expand them
 # fix for rake tasks with : in names
 # also allows for c/e.<tab> expanded to config/environment.rb
-zstyle ':completion:*' matcher-list 'r:|[.:-]=*'
+zstyle ':completion:*' matcher-list 'r:|[.:]=*'
 
 
 
