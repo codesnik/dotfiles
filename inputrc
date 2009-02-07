@@ -1,0 +1,4 @@
+"\ep": history-search-backward
+"\en": history-search-forward
+"\e[A": history-search-backward
+"\e[B": history-search-forward
