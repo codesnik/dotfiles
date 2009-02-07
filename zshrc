@@ -159,7 +159,7 @@ dirname-previous-word () {
 }
 
 zle -N dirname-previous-word
-bindkey '^[q' dirname-previous-word
+bindkey '^[-' dirname-previous-word
 
 # one more:
 
@@ -179,3 +179,7 @@ gemdoc() {
   export GEMDIR=`gem env gemdir`
   firefox  $GEMDIR/doc/`ls $GEMDIR/doc | grep $1 | sort | tail -1`/rdoc/index.html
 }
+
+autoload -U view-current-argument
+zle -N view-current-argument
+bindkey '^[v' view-current-argument

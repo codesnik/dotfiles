@@ -1,0 +1,27 @@
+setopt localoptions noksharrays multibyte
+
+zle -I
+
+local -a reply
+integer REPLY REPLY2
+
+autoload -U split-shell-arguments
+split-shell-arguments
+
+# Can't do this unless there's some text under or left of us.
+(( REPLY < 2 )) && return 1
+
+# Get the index of the word we want.
+if (( REPLY & 1 )); then
+  # Odd position; need previous word.
+  (( REPLY-- ))
+  # Pretend position was just after the end of it. 
+  (( REPLY2 = ${#reply[REPLY]} + 1 ))
+fi
+
+
+if [[ -d ${~reply[REPLY]} ]]; then
+    ls --color ${~reply[REPLY]} 
+else
+    less ${~reply[REPLY]}
+fi
