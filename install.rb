@@ -2,6 +2,7 @@
 files = ARGV.empty? ? Dir['*'] : ARGV
 for file in Dir['*']
    next if File.expand_path(file) == File.expand_path($0)
+   next if file == 'README'
    dotted = "~/.#{file}"
    if File.exists? File.expand_path( dotted)
     if test ?l, File.expand_path( dotted)
