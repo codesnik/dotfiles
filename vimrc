@@ -58,6 +58,9 @@ map Y y$
 map <f2> :w<cr>
 imap <f2> :w<cr>
 
+map <S-f4> :Sex<cr>
+map <f4> :Ex<cr>
+
 map <f5> :make<cr>
 map <S-f5> :cw<cr>
 map <C-f5> :Rake!<cr>
