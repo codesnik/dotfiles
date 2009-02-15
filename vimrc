@@ -14,8 +14,8 @@ end
 se keymap=russian-jcukenwin
 se imi=0
 se imsearch=0
-imap <C-L> <C-^>
-cmap <C-L> <C-^>
+"imap <C-L> <C-^>
+"cmap <C-L> <C-^>
 
 colorscheme railscasts
 syntax on
@@ -56,13 +56,15 @@ se switchbuf=usetab
 map Y y$
 
 map <f2> :w<cr>
-imap <f2> :w<cr>
+"imap <f2> :w<cr>
+imap <f2> <esc>:w<cr>
 
 map <S-f4> :Sex<cr>
 map <f4> :Ex<cr>
 
 map <f5> :make<cr>
-map <S-f5> :cw<cr>
+"map <S-f5> :cw<cr>
+map <S-f5> :cfile log/lasterror<cr>
 map <C-f5> :Rake!<cr>
 se fillchars=
 
@@ -168,9 +170,12 @@ let g:proj_run8="!rm -i %f"
 " writing swap file when one second idle, also used by plugins autofollow
 set updatetime=1000
 
-set grepprg=git\ grep\ -n
+"set grepprg=git\ grep\ -n
+set grepprg=ack
 
 "autocmd BufNewFile,BufRead COMMIT_EDITMSG set filetype=gitcommit
 
 "autocmd FileType gitcommit DiffGitCached | wincmd w
+au BufWinEnter quickfix map <buffer> p <C-W><CR>
 set history=200
+set list listchars=tab:»·,trail:·

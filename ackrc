@@ -4,6 +4,9 @@
 # skip rails doc folder
 --ignore-dir=doc
 --ignore-dir=log
+--smart-case
 
---type-set=ruby=.rb,.rhtml,.rjs,.rxml,.erb,.rake,Rakefile
+#--type-set=ruby=.rb,.rhtml,.rjs,.rxml,.erb,.rake,Rakefile
 --type-set=erb=.rhtml,.rxml,.erb
+--type-set=haml=.haml
+--type-set=sass=.sass

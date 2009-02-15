@@ -183,3 +183,7 @@ gemdoc() {
 autoload -U view-current-argument
 zle -N view-current-argument
 bindkey '^[v' view-current-argument
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^[e' edit-command-line
