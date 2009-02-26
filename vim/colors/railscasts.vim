@@ -127,3 +127,5 @@ hi PmenuThumb      cterm=none ctermbg=39 guibg=#4ba6de gui=none
 hi TabLine  term=underline cterm=bold,underline ctermbg=234 ctermfg=240
 hi TabLineSel  term=bold cterm=none ctermbg=240 ctermfg=15 
 hi TabLineFill term=reverse cterm=underline ctermfg=240 ctermbg=16
+
+hi SpecialKey ctermfg=8 guifg=DarkGray
