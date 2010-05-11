@@ -18,6 +18,7 @@ export FPATH=~/.zsh/func:$FPATH
 
 #export LANG=en_US.UTF-8
 export VISUAL=vim
+export GEM_EDITOR=vim
 bindkey -e
 
 export LESS='-R'
@@ -187,3 +188,6 @@ bindkey '^[v' view-current-argument
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^[e' edit-command-line
+
+# rvm config
+if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
