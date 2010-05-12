@@ -1,6 +1,7 @@
 function! s:gotoline()
 	let file = bufname("%")
-	let names =  matchlist( file, '\(.*\):\(\d\+\|$\)')
+	"let names =  matchlist( file, '\(.*\):\(\d\+\|$\)')
+	let names =  matchlist( file, '\(.*\):\(\d\+\)')
 
 	if len(names) != 0 && filereadable(names[1])
 		exec ":e " . names[1]

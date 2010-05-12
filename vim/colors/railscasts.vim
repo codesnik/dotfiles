@@ -67,8 +67,16 @@ highlight Title                     guifg=#FFFFFF ctermfg=15
 highlight Type                      guifg=#DA4939 ctermfg=167 gui=NONE cterm=NONE
 highlight Visual                    guibg=#5A647E ctermbg=60
 
-highlight DiffAdd                   guifg=#E6E1DC ctermfg=7 guibg=#519F50 ctermbg=71
-highlight DiffDelete                guifg=#E6E1DC ctermfg=7 guibg=#660000 ctermbg=52
+"highlight DiffAdd                   guifg=#E6E1DC ctermfg=7 guibg=#519F50 ctermbg=71
+"highlight DiffDelete                guifg=#E6E1DC ctermfg=7 guibg=#660000 ctermbg=52
+
+highlight DiffAdd                   guifg=#E6E1DC ctermfg=7 guibg=#005F00 ctermbg=22
+highlight DiffDelete                guifg=#5F0000 ctermfg=52 guibg=#000000 ctermbg=0
+"highlight DiffChange                guifg=#E6E1DC ctermfg=7 guibg=#5F005F ctermbg=17
+highlight DiffText                guifg=#E6E1DC ctermfg=7 guibg=#005F00 ctermbg=22 cterm=none
+highlight clear DiffChange
+"highlight DiffChange                guifg=#E6E1DC ctermfg=7 guibg=#008700 ctermbg=28 cterm=none
+
 highlight Special                   guifg=#DA4939 ctermfg=167 
 
 highlight pythonBuiltin             guifg=#6D9CBE ctermfg=67 gui=NONE cterm=NONE
@@ -128,4 +136,4 @@ hi TabLine  term=underline cterm=bold,underline ctermbg=234 ctermfg=240
 hi TabLineSel  term=bold cterm=none ctermbg=240 ctermfg=15 
 hi TabLineFill term=reverse cterm=underline ctermfg=240 ctermbg=16
 
-hi SpecialKey ctermfg=8 guifg=DarkGray
+hi SpecialKey ctermfg=8 guifg=#333333
