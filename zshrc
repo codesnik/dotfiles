@@ -20,6 +20,7 @@ export FPATH=~/.zsh/func:$FPATH
 #export LANG=en_US.UTF-8
 export VISUAL=vim
 export EDITOR=vim
+export GEM_EDITOR=vim
 bindkey -e
 
 export LESS='-R'
@@ -210,4 +211,5 @@ _rake () {
 
 compdef _rake rake
 
-if [[ -s /Users/codesnik/.rvm/scripts/rvm ]] ; then source /Users/codesnik/.rvm/scripts/rvm ; fi
+# rvm config
+if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
