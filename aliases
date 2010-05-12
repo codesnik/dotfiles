@@ -1,22 +1,43 @@
 # vim:ft=zsh:
-alias -g L='| less'
-alias -g G='| grep'
+alias -g L='|& less -R'
+alias -g G='| grep --color=always'
 alias -g V='| view -'
-alias l.='ls -d .* --color=tty'
-alias ll='ls -l --color=tty'
-alias la='ls -al --color=tty'
-alias ls='ls --color=tty'
+alias -g NL='| cat'
+alias l.='ls -d -G .*'
+alias ll='ls -l -G'
+alias la='ls -al -G'
+alias ls='ls -G'
 alias mmv='noglob zmv -W'
-alias get='noglob wget'
+alias wget='noglob wget'
 alias grep='grep --color=auto'
+alias rgrep='grep -r --color=auto'
 alias rm='rm -v'
 alias cp='cp -v'
 alias mv='mv -v'
 alias rg='grep --exclude=\*.svn\* --exclude=.git -r'
 alias nvack='ack --ignore-dir=vendor --ignore-dir=log'
 
-alias o='gnome-open'
+alias repop='rake db:drop db:create; script/dbconsole < *.sql([-1])'
+alias o='open'
 alias info='info --vi-keys'
 alias sudo='sudo '
 alias 'ps?'='ps ax | grep '
 alias cdgems='cd `gem environment gemdir`/gems'
+alias mvim='~/bin/mvim --remote-silent'
+alias e='~/bin/mvim --remote-silent'
+alias jconsole='jruby script/console'
+alias HEAD='lwp-request -m HEAD'
+alias GET='lwp-request -m GET'
+alias POST='lwp-request -m POST'
+
+alias tree='tree -C'
+alias rails3='ruby -rubygems ~/src/rails/railties/bin/rails'
+
+# allows to use "rails console" style commands while rails3.0 is in beta
+function rails {
+    if [[ -x script/rails ]]; then
+        script/rails $*
+    else
+        command rails $*
+    fi
+}

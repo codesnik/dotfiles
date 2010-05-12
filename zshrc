@@ -5,19 +5,21 @@ if [[ `uname` = FreeBSD ]]; then
  . ~/.aliases.freebsd   
 fi
 
-if [[ -e .aliases.local ]] then  
+if [[ -e ~/.aliases.local ]] then  
  . ~/.aliases.local
 fi
 
 # i like to be friendly to my friends
 umask 002
 
-export PATH=~/bin:/var/lib/gems/1.8/bin:$PATH
+. ~/.profile
+#export PATH=~/bin:$PATH
 
 export FPATH=~/.zsh/func:$FPATH
 
 #export LANG=en_US.UTF-8
 export VISUAL=vim
+export EDITOR=vim
 bindkey -e
 
 export LESS='-R'
@@ -36,7 +38,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 
 
-setopt auto_cd auto_pushd pushd_ignore_dups correct extended_glob numeric_glob_sort rc_quotes listpacked histignoredups noflowcontrol incappendhistory
+setopt auto_cd auto_pushd pushd_ignore_dups correct extended_glob numeric_glob_sort rc_quotes listpacked histignoredups noflowcontrol incappendhistory no_nomatch
 
 # colors hash
 autoload colors
@@ -58,7 +60,7 @@ fi
 if [[ x$user != x ]]; then
   prompt="%{$fg[cyan]%}$user:%{$fg[yellow]%}%15<...<%~%<<>%b "
 else
-  prompt="%{$fg[green]%}%15<...<%~%<<>%b "
+  prompt="%{$fg[green]%}%15<...<%~%<< >%b "
 fi
 
 # func for putting text into title
@@ -105,8 +107,6 @@ bindkey "^[n" history-beginning-search-forward
 autoload -U select-word-style
 select-word-style shell
 
-autoload -U edit-command-line
-zle -N edit-command-line
 # thoose are my old completions
 
 #zstyle ':completion:*' max-errors 2
@@ -131,8 +131,8 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) #[^ ]# #[
 # treat ., :, - and _ in completed words just as like / in dirs - expand them
 # fix for rake tasks with : in names
 # also allows for c/e.<tab> expanded to config/environment.rb
-zstyle ':completion:*' matcher-list 'r:|[.:]=*'
-
+# and case insensitivity
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-:]=* r:|=*' 'l:|=* r:|=*'
 
 
 zstyle ':completion:*' auto-description 'specify: %d'
@@ -177,7 +177,7 @@ bindkey '^[-' dirname-previous-word
 
 gemdoc() {
   export GEMDIR=`gem env gemdir`
-  firefox  $GEMDIR/doc/`ls $GEMDIR/doc | grep $1 | sort | tail -1`/rdoc/index.html
+  open $GEMDIR/doc/`ls $GEMDIR/doc | grep $1 | sort | tail -1`/rdoc/index.html
 }
 
 autoload -U view-current-argument
@@ -187,3 +187,27 @@ bindkey '^[v' view-current-argument
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^[e' edit-command-line
+
+
+_rake_does_task_list_need_generating () {
+  if [ ! -f .rake_tasks ]; then return 0;
+  else
+    accurate=$(stat -f%m .rake_tasks)
+    changed=$(stat -f%m Rakefile)
+    return $(expr $accurate '>=' $changed)
+  fi
+}
+
+_rake () {
+  if [ -f Rakefile ]; then
+    if _rake_does_task_list_need_generating; then
+      echo "\nGenerating .rake_tasks..." > /dev/stderr
+      rake --silent --tasks | cut -d " " -f 2 > .rake_tasks
+    fi
+    compadd `cat .rake_tasks`
+  fi
+}
+
+compdef _rake rake
+
+if [[ -s /Users/codesnik/.rvm/scripts/rvm ]] ; then source /Users/codesnik/.rvm/scripts/rvm ; fi

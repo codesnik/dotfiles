@@ -1,58 +1,87 @@
 #!/usr/bin/ruby
-# ^^ for dumb vim ft autodetection
-# TODO we need to do something when wirble gem isn't available
+
+# this won't bite your Bundle-using programs too
 require 'rubygems'
-require 'wirble'
-require 'ruby-debug'
 
-Wirble.init
-MY_COLORS = {
-  :comma            => :red,
-  :refers           => :red,
-  :open_hash        => :blue,
-  :close_hash       => :blue,
-  :open_array       => :green,
-  :close_array      => :green,
-  :open_object      => :light_red,
-  :object_class     => :light_green,
-  :object_addr      => :purple,
-  :object_line      => :light_purple,
-  :close_object     => :light_red,
-  :symbol           => :yellow,
-  :symbol_prefix    => :yellow,
-  :number           => :cyan,
-  :string           => :cyan,
-  :keyword          => :white,
-  :range            => :light_blue,
-}
-#Wirble.colorize MY_COLORS
-
-Wirble.colorize 
-
-# I love that 'y something' shortcut
-require 'yaml'
+# don't know if they are needed
 
 #require 'irb/completion'
 #require 'irb/ext/save-history'
 
-IRB.conf[:SAVE_HISTORY] = 100
-IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-save-history" 
+#IRB.conf[:SAVE_HISTORY] = 100
+#IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-save-history" 
 IRB.conf[:PROMPT_MODE]  = :SIMPLE
 IRB.conf[:AUTO_INDENT] = true
 
-script_console_running = ENV.include?('RAILS_ENV') && IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers')
-rails_running = ENV.include?('RAILS_ENV') && !(IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers'))
-irb_standalone_running = !script_console_running && !rails_running
+def provided_by lib
+  begin
+    require lib
+    yield
+  rescue LoadError
+    puts "#{lib} is not available"
+  end
+end
 
-if script_console_running
-    require 'logger'
-    Object.const_set(:RAILS_DEFAULT_LOGGER, Logger.new(STDOUT))
+provided_by 'wirble' do
+  Wirble.init
+  # thoose do not work, actually
+  MY_COLORS = {
+    :comma            => :red,
+    :refers           => :red,
+    :open_hash        => :blue,
+    :close_hash       => :blue,
+    :open_array       => :green,
+    :close_array      => :green,
+    :open_object      => :light_red,
+    :object_class     => :light_green,
+    :object_addr      => :purple,
+    :object_line      => :light_purple,
+    :close_object     => :light_red,
+    :symbol           => :yellow,
+    :symbol_prefix    => :yellow,
+    :number           => :cyan,
+    :string           => :cyan,
+    :keyword          => :white,
+    :range            => :light_blue,
+  }
+  Wirble.colorize MY_COLORS
+
+end
+
+provided_by 'hirb' do
+  Hirb.enable :formatter => false
+end
+
+provided_by 'yaml' do
+  # I love that 'y something' shortcut
+end
+
+
+provided_by 'looksee/shortcuts' do
+end
+
+#provided_by 'soma' do
+#  Soma.start
+#end
+
+provided_by 'ap' do
+  # awesome print!
 end
 
 # Just for Rails...
-if rails_running || script_console_running
+if defined? Rails
 
-  rails_root = File.basename(Dir.pwd)
+  if defined? ActiveRecord::Base
+    require 'logger'
+    ActiveRecord::Base.logger = Logger.new(STDOUT)
+  end
+
+  if defined? DataObjects::Sqlite3
+    # DataMapper::Logger.new(STDOUT, :debug)
+    DataObjects::Sqlite3.logger = Logger.new(STDOUT)
+  end
+
+  rails_root = File.basename(Rails.root || Dir.pwd)
   if rails_root == 'trunk'
     rails_root = File.basename(File.expand_path('..'))
   end
@@ -69,32 +98,30 @@ if rails_running || script_console_running
   # Called after the irb session is initialized and Rails has
   # been loaded (props: Mike Clark).
   
-  IRB.conf[:IRB_RC] = Proc.new do
-    # doesn't work anymore, cause logger's cached
-    #ActiveRecord::Base.logger = Logger.new(STDOUT)
+  #IRB.conf[:IRB_RC] = Proc.new do
     # nice shortcut: Class[:first] eq Class.find(:first)
-    ActiveRecord::Base.instance_eval { alias :[] :find }
-  end
+    #ActiveRecord::Base.instance_eval { alias :[] :find }
+  #end
 
-  # helper.url_for.. got from: http://errtheblog.com/posts/41-real-console-helpers
-  def Object.method_added(method)
-    return super(method) unless method == :helper
-    (class<<self;self;end).send(:remove_method, :method_added)
+  ## helper.url_for.. got from: http://errtheblog.com/posts/41-real-console-helpers
+  #def Object.method_added(method)
+  #  return super(method) unless method == :helper
+  #  (class<<self;self;end).send(:remove_method, :method_added)
 
-    def helper(*helper_names)
-      returning $helper_proxy ||= Object.new do |helper|
-        helper_names.each { |h| helper.extend "#{h}_helper".classify.constantize }
-      end
-    end
+  #  def helper(*helper_names)
+  #    returning $helper_proxy ||= Object.new do |helper|
+  #      helper_names.each { |h| helper.extend "#{h}_helper".classify.constantize }
+  #    end
+  #  end
 
-    helper.instance_variable_set("@controller", ActionController::Integration::Session.new)
+  #  helper.instance_variable_set("@controller", ActionController::Integration::Session.new)
 
-    def helper.method_missing(method, *args, &block)
-      @controller.send(method, *args, &block) if @controller && method.to_s =~ /_path$|_url$/
-    end
+  #  def helper.method_missing(method, *args, &block)
+  #    @controller.send(method, *args, &block) if @controller && method.to_s =~ /_path$|_url$/
+  #  end
 
-    helper :application rescue nil
-  end 
+  #  helper :application rescue nil
+  #end 
 
 end
 
@@ -132,3 +159,9 @@ def disable_trace
   set_trace_func nil
 end
 
+
+def debug
+  require 'ruby-debug'
+  debugger
+  yield
+end

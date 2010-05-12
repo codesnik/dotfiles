@@ -10,3 +10,4 @@
 --type-set=erb=.rhtml,.rxml,.erb
 --type-set=haml=.haml
 --type-set=sass=.sass
+--type-set=cucumber=.feature

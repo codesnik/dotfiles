@@ -11,12 +11,14 @@ if $TERM =~ 'xterm'
 end
 
 
-se keymap=russian-jcukenwin
+"se keymap=russian-jcukenwin
+se noimd
 se imi=0
 se imsearch=0
 "imap <C-L> <C-^>
 "cmap <C-L> <C-^>
 
+"colorscheme desert
 colorscheme railscasts
 syntax on
 "se guifont=Consolas\ 11
@@ -24,7 +26,8 @@ se encoding=utf8
 
 map <leader>. :split ~/.vimrc<cr>
 map <leader>e :Explore<cr>
-map <leader><leader> :Project<cr>
+"map <leader><leader> :Project<cr>
+map <leader><leader> :NERDTreeToggle<cr>
 se guioptions=aegir
 se mouse+=a
 
@@ -66,6 +69,7 @@ map <f5> :make<cr>
 "map <S-f5> :cw<cr>
 map <S-f5> :cfile log/lasterror<cr>
 map <C-f5> :Rake!<cr>
+map <M-f5> :Rake!<cr>
 se fillchars=
 
 se ai
@@ -153,10 +157,10 @@ se clipboard=autoselect,unnamed,exclude:cons\|linux
 "endif
 
 " for lusty explorer
-map ,r \lr
-map ,b \lb
-map ,, \lb
-map ,f \lf
+"map ,r \lr
+"map ,b \lb
+"map ,, \lb
+"map ,f \lf
 
 
 " show linebreak marker
@@ -179,3 +183,56 @@ set grepprg=ack
 au BufWinEnter quickfix map <buffer> p <C-W><CR>
 set history=200
 set list listchars=tab:»·,trail:·
+
+let g:browser = 'firefox -new-tab '
+"let g:browser = 'safari -new-tab '
+" Open the Ruby ApiDock page for the word under cursor, in a new Firefox tab
+function! OpenRubyDoc(keyword)
+  let url = 'http://apidock.com/ruby/'.a:keyword
+  exec 'silent !'.g:browser.' '.url.' &'
+ redraw!
+endfunction
+noremap RB :call OpenRubyDoc(expand('<cword>'))<CR>
+
+" Open the Rails ApiDock page for the word under cursos, in a new Firefox tab
+function! OpenRailsDoc(keyword)
+ let url = 'http://apidock.com/rails/'.a:keyword
+ exec 'silent !'.g:browser.' '.url.' &'
+ redraw!
+endfunction
+noremap RR :call OpenRailsDoc(expand('<cword>'))<CR>
+
+map <D-1> 1gt
+map <D-2> 2gt
+map <D-3> 3gt
+map <D-4> 4gt
+map <D-5> 5gt
+map <D-6> 6gt
+map <D-7> 7gt
+map <D-8> 8gt
+map <D-9> 9gt
+map <D-0> :tablast<cr>
+
+
+"compiler rubyunit
+"nmap <Leader>fd :cf /tmp/autotest.txt<cr> :compiler rubyunit<cr>
+
+let g:netrw_liststyle=3
+
+" copy filename to clipboard
+nmap cp :let @* = expand("%:p")<cr>:file<cr>
+
+" command for rails.vim on osx
+command! -bar -nargs=1 OpenURL :!open <args>
+
+command! -bar GitGrep :se grepprg=git\ grep\ -n
+command! -bar AckGrep :se grepprg=ack
+
+"map <C-M> :
+
+map <F1> :Rfind 
+cmap <F1> <C-c>
+
+" join haml lines
+" g/^\s*[^% ]/normal kJ
+
