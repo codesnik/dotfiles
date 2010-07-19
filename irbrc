@@ -68,6 +68,10 @@ provided_by 'ap' do
   # awesome print!
 end
 
+provided_by 'interactive_editor' do
+  # vi command
+end
+
 # Just for Rails...
 if defined? Rails
 

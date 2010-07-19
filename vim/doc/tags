@@ -63,6 +63,7 @@
 :NERDTreeFromBookmark	NERD_tree.txt	/*:NERDTreeFromBookmark*
 :NERDTreeMirror	NERD_tree.txt	/*:NERDTreeMirror*
 :NERDTreeToggle	NERD_tree.txt	/*:NERDTreeToggle*
+:ReloadScript	reload.txt	/*:ReloadScript*
 :Ri	ri.txt	/*:Ri*
 :RiExpand	ri.txt	/*:RiExpand*
 :Tail	tailminusf.txt	/*:Tail*
@@ -348,6 +349,7 @@ g:rails_statusline	rails.txt	/*g:rails_statusline*
 g:rails_syntax	rails.txt	/*g:rails_syntax*
 g:rails_tabstop	rails.txt	/*g:rails_tabstop*
 g:rails_url	rails.txt	/*g:rails_url*
+g:reload_on_write	reload.txt	/*g:reload_on_write*
 g:snippets_dir	snipMate.txt	/*g:snippets_dir*
 g:snips_author	snipMate.txt	/*g:snips_author*
 greplace.txt	greplace.txt	/*greplace.txt*
@@ -541,6 +543,7 @@ rails-template-types	rails.txt	/*rails-template-types*
 rails-type-navigation	rails.txt	/*rails-type-navigation*
 rails-vim-integration	rails.txt	/*rails-vim-integration*
 rails.txt	rails.txt	/*rails.txt*
+reload.txt	reload.txt	/*reload.txt*
 ri-browser	ri.txt	/*ri-browser*
 ri-bugs	ri.txt	/*ri-bugs*
 ri-class-buffer	ri.txt	/*ri-class-buffer*

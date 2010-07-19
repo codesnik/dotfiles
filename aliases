@@ -31,6 +31,7 @@ alias GET='lwp-request -m GET'
 alias POST='lwp-request -m POST'
 
 alias tree='tree -C'
+alias be='bundle exec'
 alias rails3='ruby -rubygems ~/src/rails/railties/bin/rails'
 
 # allows to use "rails console" style commands while rails3.0 is in beta

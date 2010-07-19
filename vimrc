@@ -101,7 +101,7 @@ se autowrite
 se backup
 se backupdir=~/.backup,.
 
-noremap ' `
+" noremap ' `
 let g:SuperTabRetainCompletionType=2
 
 " from debian config
@@ -120,8 +120,8 @@ set statusline=%1*%n\ %*\ %<%f\ %h%=%1*\ %W%Y%R%m\ %*%10(%c\ %l/%L%)\ %2*%P
 hi User1 ctermbg=black ctermfg=8 cterm=bold
 set wildmenu
 
-map ` <esc>
-map! ` <esc>
+"map ` <esc>
+"map! ` <esc>
 
 " no intro message
 se shortmess+=I
@@ -236,3 +236,5 @@ cmap <F1> <C-c>
 " join haml lines
 " g/^\s*[^% ]/normal kJ
 
+" сохранение файлов если забыл sudo
+cmap w!! %!sudo tee > /dev/null %
