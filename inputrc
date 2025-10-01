@@ -1,8 +1,2 @@
-"\ep": history-search-backward
-"\en": history-search-forward
 "\e[A": history-search-backward
 "\e[B": history-search-forward
-#set meta-flag on
-set input-meta on
-set output-meta on
-set convert-meta off

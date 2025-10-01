@@ -1,4 +1,4 @@
-.svn
 vim/.netrwbook
 vim/.netrwhist
 vim/tmp
+.ruby-lsp

@@ -1,3 +1,0 @@
-alias l.='ls -d .* -G'
-alias ll='ls -lG '
-alias ls='ls -G'

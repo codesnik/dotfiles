@@ -1,3 +1,0 @@
-nnoremap <buffer> <silent> ZZ :wqall<CR>
-nnoremap <buffer> <silent> - zc
-nnoremap <buffer> <silent> \\ <C-W>p 

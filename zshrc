@@ -1,215 +1,209 @@
+setopt extended_glob
+# zmodload zsh/zprof
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
-. ~/.aliases
+export NLS_LANG="$LANG"
 
-if [[ `uname` = FreeBSD ]]; then
- . ~/.aliases.freebsd   
-fi
+## Homebrew
 
-if [[ -e ~/.aliases.local ]] then  
- . ~/.aliases.local
-fi
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 
-# i like to be friendly to my friends
-umask 002
+export PATH="/opt/homebrew/opt/icu4c@77/bin:$PATH"
+export PATH="/opt/homebrew/opt/icu4c@77/sbin:$PATH"
 
-. ~/.profile
-#export PATH=~/bin:$PATH
+## Ruby
 
-export FPATH=~/.zsh/func:$FPATH
+#export RBENV_ROOT=~/.rbenv
+#if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
-#export LANG=en_US.UTF-8
-export VISUAL=vim
-export EDITOR=vim
-export GEM_EDITOR=vim
-bindkey -e
+# for keeping openssl upgraded by homebrew
+#export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
-export LESS='-R'
-#export RI='-f ansi'
+export DISABLE_SIMPLECOV=true
+export DISABLE_SPRING=yes
 
-#if [[ $TERM == xterm ]]; then
-  #export TERM=xterm-256color
-#fi
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-# GNU ls. maybe should be something other on freebsd
-export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.flac=01;35:*.mp3=01;35:*.mpc=01;35:*.ogg=01;35:*.wav=01;35:'
+## Docker
 
+# export DOCKER_HOST="${DOCKER_HOST:=tcp://127.0.0.1:2375}"
 
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+## nodejs
 
+#export NVM_DIR="$HOME/.nvm"
+#alias loadnvm=". $NVM_DIR/nvm.sh"
+#loadnvm
 
-setopt auto_cd auto_pushd pushd_ignore_dups correct extended_glob numeric_glob_sort rc_quotes listpacked histignoredups noflowcontrol incappendhistory no_nomatch
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# colors hash
-autoload colors
-colors
+## Haskell
 
-# cool renaming function
-autoload -U zmv
+# [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
+# export HUSKY_SKIP_INSTALL=1
 
-# green prompt - localhost, brown - remote host. just that.
+## Postgres
 
-#branch=`git-branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'`
-if [[ $USER != codesnik ]] then
-    user=$USER
-fi
-if [[ x$SSH_TTY != x ]]; then
-  # remote host
-  user="$user@`uname -n`"
-fi
-if [[ x$user != x ]]; then
-  prompt="%{$fg[cyan]%}$user:%{$fg[yellow]%}%15<...<%~%<<>%b "
-else
-  prompt="%{$fg[green]%}%15<...<%~%<< >%b "
-fi
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
 
-# func for putting text into title
-function title {
-  if [[ $TERM == "screen" ]]; then
-    # Use these two for GNU Screen:
-    print -nR $'\033k'$1$'\033'\\\
-    print -nR $'\033]0;'$2$'\a'
-  elif [[ $TERM == "xterm" || $TERM == "xterm-256color" ]]; then 
-    print -nR $'\033]0;'$*$'\a'
-  fi
+## Elixir
+
+#export ELIXIR_EDITOR="open -a Terminal 'vim +__LINE__ __FILE__'"
+export ELIXIR_EDITOR='osascript -e '\''tell application "iTerm2"
+  tell current window
+  create tab with default profile command "vim +__LINE__ __FILE__"
+  end tell)
+end tell'\'
+
+export ERL_AFLAGS="-kernel shell_history enabled"
+
+## Android
+
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
+
+## python
+
+#---------------------------------------------- chpwd pyvenv ---
+python_venv() {
+  MYVENV=../.env
+  # when you cd into a folder that contains $MYVENV
+  [[ -d $MYVENV ]] && source $MYVENV/bin/activate > /dev/null 2>&1
+  # when you cd into a folder that doesn't
+  [[ ! -d $MYVENV ]] && deactivate > /dev/null 2>&1
 }
-  
-# puts @ somehost after title, if it is something over SSH
-function title_with_host {
-  if [[ x$SSH_TTY != x ]]; then
-    title "$* @ `hostname`"
-  else
-    title "$*"
-  fi
-}
-# put just path in terminal title
-function precmd {
-  title_with_host $(print -P '%~')
-}
+autoload -U add-zsh-hook
+add-zsh-hook chpwd python_venv
 
-# put currently executed command in terminal title
-function preexec {
-  emulate -L zsh
-  local -a cmd; cmd=(${(z)1})
-  title_with_host $cmd[1]:t "$cmd[2,-1]"
-}
+python_venv
 
+# Load pyenv automatically by appending
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init -)"
 
+## Java
 
+#export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+#export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 
-# sometimes it closes ssh connection
-# bindkey '^[[Z' reverse-menu-complete
-#clear
-bindkey "^[^J" accept-and-infer-next-history
-bindkey "^[p" history-beginning-search-backward
-bindkey "^[n" history-beginning-search-forward
+## Perl
 
-autoload -U select-word-style
-select-word-style shell
+PATH="$HOME/.perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="$HOME/.perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="$HOME/.perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"$HOME/.perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=$HOME/.perl5"; export PERL_MM_OPT;
 
-# thoose are my old completions
+## Go
 
-#zstyle ':completion:*' max-errors 2
-#zstyle ':completion:*' menu yes select
-zstyle ':completion:*' menu select
-# показывать меню для более чем одного варианта комплишна
-zstyle ':completion:*' force-list 2 
-zstyle ':completion:*' last-prompt yes
-zstyle ':completion:*' select-prompt "$fg[yellow]Scrolling active: current selection at %p%s"
-# цвета для файлов
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+export GOPATH="$HOME/.go"
 
-# Use menuselection for pid completion
-zstyle ':completion:*:*:fg:*' menu yes select
-zstyle ':completion:*:*:bg:*' menu yes select
-zstyle ':completion:*:*:kill:*' menu yes select
-zstyle ':completion:*:kill:*' force-list always
-zstyle ':completion:*:processes' command 'ps -au$USER -o pid,stat,tty,cmd'
-# clever colors for it
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) #[^ ]# #[^ ]#(*)=2=32=0'
+## zsh
 
-# treat ., :, - and _ in completed words just as like / in dirs - expand them
-# fix for rake tasks with : in names
-# also allows for c/e.<tab> expanded to config/environment.rb
-# and case insensitivity
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-:]=* r:|=*' 'l:|=* r:|=*'
-
-
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _complete _expand 
-zstyle ':completion:*' format "$fg_bold[black]%d:$fg[white]"
-zstyle ':completion:*' glob yes
-# show all completion group names when completing
-zstyle ':completion:*' group-name ''
-#zstyle ':completion:*' insert-unambiguous yes
-#zstyle ':completion:*' substitute yes # default
-#zstyle ':completion:*' show-completer yes
-zstyle :compinstall filename '~/.zshrc'
-
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-#
-#
-
-# NEW
 dirname-previous-word () {
     autoload -U modify-current-argument
     modify-current-argument '${ARG:h}/'
 }
-
 zle -N dirname-previous-word
-bindkey '^[-' dirname-previous-word
+bindkey "\e-" dirname-previous-word
 
-# one more:
+bindkey "\e^J" accept-and-infer-next-history
+bindkey "\ep" history-beginning-search-backward
+bindkey "\en" history-beginning-search-forward
+bindkey -s "\el" "\eqls^J"
+bindkey -s "\eg" "\eqgit status^J"
 
-# show mode
-#function zle-line-init zle-keymap-select {
-#    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
-#    RPS2=$RPS1
-#    zle reset-prompt
-#}
-#zle -N zle-line-init
-#zle -N zle-keymap-select
+bindkey '^]' vi-find-next-char
+bindkey "\e^]" vi-find-prev-char
 
-# END OF NEW
+# done by omz
+# autoload -U edit-command-line
+# zle -N edit-command-line
 
+# word boundary on spaces
+autoload -U select-word-style
+select-word-style shell
 
-gemdoc() {
-  export GEMDIR=`gem env gemdir`
-  open $GEMDIR/doc/`ls $GEMDIR/doc | grep $1 | sort | tail -1`/rdoc/index.html
-}
+# M-H to open help on builtins too
+(( $+aliases[run-help] )) && unalias run-help
+autoload -Uz run-help
 
-autoload -U view-current-argument
-zle -N view-current-argument
-bindkey '^[v' view-current-argument
+test -e "${HOME}/.ilerm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '^[e' edit-command-line
+# autoload -U compinit compdef
+# for dump in ~/.zcompdump(N.mh+24); do
+#   compinit
+# done
+# compinit -C
 
+autoload -U zmv
+alias mmv='noglob zmv -W'
 
-_rake_does_task_list_need_generating () {
-  if [ ! -f .rake_tasks ]; then return 0;
-  else
-    accurate=$(stat -f%m .rake_tasks)
-    changed=$(stat -f%m Rakefile)
-    return $(expr $accurate '>=' $changed)
-  fi
-}
+## oh-my-zsh
 
-_rake () {
-  if [ -f Rakefile ]; then
-    if _rake_does_task_list_need_generating; then
-      echo "\nGenerating .rake_tasks..." > /dev/stderr
-      rake --silent --tasks | cut -d " " -f 2 > .rake_tasks
-    fi
-    compadd `cat .rake_tasks`
-  fi
-}
+# Path to your oh-my-zsh configuration.
+export ZSH=$HOME/.oh-my-zsh
 
-compdef _rake rake
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+export ZSH_THEME="codesnik"
 
-# rvm config
-if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
+export EDITOR=nvim
+export ACK_PAGER_COLOR='less -R'
+export PAGER='less -RS'
+
+# Set to this to use case-sensitive completion
+# export CASE_SENSITIVE="true"
+
+# Comment this out to disable weekly auto-update checks
+export DISABLE_AUTO_UPDATE="true"
+
+# Uncomment following line if you want to disable colors in ls
+# export DISABLE_LS_COLORS="true"
+
+# Uncomment following line if you want to disable autosetting terminal title.
+# export DISABLE_AUTO_TITLE="true"
+
+export APPLE_SSH_ADD_BEHAVIOR=macos
+
+# export LSCOLORS=BxGxcxdxCxegedabagacad
+# use GNU ls
+zstyle ':omz:lib:theme-and-appearance' gnu-ls yes
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# npm ansible mix vi-mode
+plugins=(
+  brew
+  asdf
+  gem
+  ruby
+  rails
+  bundler
+  docker
+  fzf
+  mix-fast
+  fancy-ctrl-z
+  aliases
+  colored-man-pages
+  colorize
+  dash
+  thefuck
+  npm
+  yarn
+  httpie
+)
+
+source $ZSH/oh-my-zsh.sh
+
+export PATH="$HOME/.local/bin:$PATH"
+
+if [[ -s ~/.aliases ]] ; then source ~/.aliases ; fi
+if [[ -s ~/.api ]] ; then source ~/.api ; fi
+
+#zprof
