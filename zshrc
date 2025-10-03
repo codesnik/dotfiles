@@ -118,6 +118,7 @@ bindkey -s "\eg" "\eqgit status^J"
 
 bindkey '^]' vi-find-next-char
 bindkey "\e^]" vi-find-prev-char
+bindkey "\e " set-mark-command
 
 # done by omz
 # autoload -U edit-command-line
