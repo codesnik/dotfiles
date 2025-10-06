@@ -1,0 +1,38 @@
+{
+  // function list:
+  //   https://developer.apple.com/documentation/appkit/nsstandardkeybindingresponding
+  // for default keybindings consult:
+  //   plutil -convert swift /System/Library/Frameworks/AppKit.framework/Resources/StandardKeyBinding.dict -o StandardKeyBinding.swift
+
+  "^ф" = "moveToBeginningOfParagraph:";
+  "^Ф" = "moveToBeginningOfParagraphAndModifySelection:";
+  "^и" = "moveBackward:";
+  "^И" = "moveBackwardAndModifySelection:";
+  "^в" = "deleteForward:";
+  "^у" = "moveToEndOfParagraph:";
+  "^У" = "moveToEndOfParagraphAndModifySelection:";
+  "^а" = "moveForward:";
+  "^А" = "moveForwardAndModifySelection:";
+  "^р" = "deleteBackward:";
+  "^л" = "deleteToEndOfParagraph:";
+  "^д" = "centerSelectionInVisibleArea:";
+  "^т" = "moveDown:";
+  "^Т" = "moveDownAndModifySelection:";
+  "^щ" = (insertNewlineIgnoringFieldEditor:, moveBackward:);
+  "^з" = "moveUp:";
+  "^З" = "moveUpAndModifySelection:";
+  "^е" = "transpose:";
+  "^м" = "pageDown:";
+  "^М" = "pageDownAndModifySelection:";
+  "^н" = "yank:";
+
+  "~^и" = "moveWordBackward:";
+  "~^И" = "moveWordBackwardAndModifySelection:";
+  "~^а" = "moveWordForward:";
+  "~^А" = "moveWordForwardAndModifySelection:";
+
+  "^u" = "deleteToBeginningOfLine:";
+  "^г" = "deleteToBeginningOfLine:";
+  "^w" = "deleteWordBackward:";
+  "^ц" = "deleteWordBackward:";
+}
