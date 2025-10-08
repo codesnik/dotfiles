@@ -1,4 +1,7 @@
 {
+  // should live in
+  // ~/Library/KeyBindings/DefaultKeyBinding.dict
+  // can't be symlinked.
   // function list:
   //   https://developer.apple.com/documentation/appkit/nsstandardkeybindingresponding
   // for default keybindings consult:
